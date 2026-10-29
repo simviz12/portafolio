@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CV · Carlos Julián Benavides Burbano</title>
+  <style>
+    @page { size: A4; margin: 11mm 13mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: #1a1a1a;
+      font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+      font-size: 10pt;
+      line-height: 1.28;
+      background: #fff;
+    }
+    .page { max-width: 780px; margin: 0 auto; padding: 18px 22px 24px; }
+    h1 {
+      margin: 0;
+      font-size: 20pt;
+      text-align: center;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+    .role {
+      text-align: center;
+      margin: 2px 0 4px;
+      font-size: 10.5pt;
+      color: #222;
+    }
+    .meta {
+      text-align: center;
+      font-size: 9pt;
+      color: #333;
+      margin: 0 0 10px;
+    }
+    .meta a { color: #0d4f4a; text-decoration: none; }
+    h2 {
+      font-size: 10pt;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      border-bottom: 1.4px solid #1a1a1a;
+      margin: 9px 0 5px;
+      padding-bottom: 1px;
+    }
+    h3 { margin: 6px 0 1px; font-size: 10.2pt; }
+    .row { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+    .when { font-style: italic; white-space: nowrap; font-size: 9pt; color: #333; }
+    .org { font-style: italic; color: #333; font-size: 9.2pt; margin: 0 0 2px; }
+    p { margin: 2px 0 5px; }
+    ul { margin: 2px 0 6px 16px; padding: 0; }
+    li { margin: 1.5px 0; }
+    .stack { color: #333; font-size: 9pt; }
+    .others { margin: 4px 0 0; }
+    .skills { margin: 0; }
+    .skills li { margin: 2px 0; }
+    @media print {
+      body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .page { padding: 0; max-width: none; }
+      a { color: inherit; text-decoration: none; }
+      h2, h3, .row { break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1>Carlos Julián Benavides Burbano</h1>
+    <p class="role">Product Engineer · Full Stack e inmersivo</p>
+    <p class="meta">
+      Pasto, Nariño, Colombia ·
+      <a href="mailto:carlos.benavidesbu@gmail.com">carlos.benavidesbu@gmail.com</a> ·
+      +57 321 721 4397<br />
+      <a href="https://github.com/simviz12">github.com/simviz12</a> ·
+      <a href="https://www.linkedin.com/in/carlos-julian-benavides-burbano-3554a839b/">LinkedIn</a>
+    </p>
+
+    <h2>Resumen</h2>
+    <p>
+      Estudiante de Ingeniería de Software (5.º semestre, UCC Pasto). Construyo productos web, móvil y VR con
+      Python, TypeScript, Java y Unity. Trabajo independiente desde 2024 y en semilleros de investigación.
+      Entrego con Git Flow; el código está en GitHub. Participé en 3 hackathons (2024–2026) y obtuve 5.º lugar
+      con un prototipo funcional en 48 horas.
+    </p>
+
+    <h2>Proyectos</h2>
+
+    <h3>JuanchoPizza POS y ERP</h3>
+    <p class="org">
+      SvelteKit 5 · TypeScript · Drizzle · PostgreSQL (Neon) · Docker ·
+      <a href="https://github.com/simviz12/juserr">github.com/simviz12/juserr</a>
+    </p>
+    <ul>
+      <li>POS para pizzerías: cierre de turno, inventario de insumos, arqueo de caja (efectivo, Nequi, Daviplata) y reportes PDF.</li>
+      <li>Clean Architecture y RBAC (jefe, cajero, bodeguero). Consultas en lote (sin N+1), caché de sesión y cargas por debajo de 200 ms.</li>
+      <li>Auth con Argon2id y tokens SHA-256. Fórmula de auditoría de porciones, merma y semáforo de caja.</li>
+    </ul>
+
+    <h3>Chef Edwin</h3>
+    <p class="org">
+      Python · Django · Gemini · Twilio / WhatsApp · PostgreSQL ·
+      <a href="https://github.com/simviz12/ChefEdwin">github.com/simviz12/ChefEdwin</a>
+    </p>
+    <ul>
+      <li>Tutor culinario en WhatsApp: texto, imagen y audio con Gemini multimodal; historial en PostgreSQL.</li>
+      <li>Roles profesor / estudiante, webhook Twilio y despliegue con Gunicorn en Render.</li>
+    </ul>
+
+    <h3>The Guardian of Mobile</h3>
+    <p class="org">
+      Flutter · Firebase · PostgreSQL ·
+      <a href="https://github.com/simviz12/fronted-guardianmobile">github.com/simviz12/fronted-guardianmobile</a>
+    </p>
+    <ul>
+      <li>App antirrobo: GPS en segundo plano, bloqueo remoto, alertas y sincronización en la nube.</li>
+    </ul>
+
+    <h3>Pulso (Wear OS)</h3>
+    <p class="org">
+      Kotlin · Wear OS ·
+      <a href="https://github.com/simviz12/smartwatch-frontend">github.com/simviz12/smartwatch-frontend</a>
+    </p>
+    <ul>
+      <li>Motor háptico: alerta de estrés, guía de respiración (inhalar / retener / exhalar) e intensidad configurable, con pantalla apagada y modo ahorro.</li>
+    </ul>
+
+    <p class="others">
+      <strong>También:</strong>
+      VibeRoute (rutas con IA, Spring Boot y React) ·
+      Guardian of Kaliche (Kali en Windows vía WSL 2, Electron) ·
+      Gym Tienda (React + Vite).
+      Repos:
+      <a href="https://github.com/simviz12">github.com/simviz12</a>
+    </p>
+
+    <h2>Experiencia</h2>
+    <div class="row">
+      <h3>Desarrollador de producto independiente · Software y VR</h3>
+      <span class="when">Ene 2024 — Actual</span>
+    </div>
+    <ul>
+      <li>Apps Android y web con React y Express; backends en Django y Spring Boot; entornos Unity VR; modelado SQL.</li>
+    </ul>
+    <div class="row">
+      <h3>Investigador junior · Semilleros UCC Pasto</h3>
+      <span class="when">2024 — Actual</span>
+    </div>
+    <ul>
+      <li>Prototipos de software e IA bajo rigor de semillero. Evaluación en REDCOLSI. Git Flow en equipo.</li>
+    </ul>
+
+    <h2>Educación y distinciones</h2>
+    <div class="row">
+      <h3>Ingeniería de Software, 5.º semestre · UCC Pasto</h3>
+      <span class="when">2024 — Actual</span>
+    </div>
+    <p>Sistemas distribuidos, Clean Architecture, desarrollo web y móvil. Bachiller 2023.</p>
+    <ul>
+      <li>3 hackathons (2024–2026); 5.º lugar con prototipo de software extremo a extremo en 48 horas.</li>
+      <li>Evaluación REDCOLSI. Subcampeón nacional de boxeo (retirado).</li>
+    </ul>
+
+    <h2>Habilidades</h2>
+    <ul class="skills">
+      <li><strong>Lenguajes:</strong> TypeScript, JavaScript, Python, Java, SQL, Dart, Kotlin.</li>
+      <li><strong>Frontend y móvil:</strong> React, Next.js, SvelteKit, Flutter, Tailwind CSS.</li>
+      <li><strong>Backend y datos:</strong> Django, Spring Boot, Express, PostgreSQL, Drizzle, Docker.</li>
+      <li><strong>IA e inmersivo:</strong> Gemini (texto, imagen, audio), Unity VR, Wear OS.</li>
+      <li><strong>Flujo:</strong> Git Flow, GitHub, TypeScript estricto, Clean Architecture.</li>
+    </ul>
+
+    <p><strong>Idiomas:</strong> Español nativo · Inglés B1 (certificado).</p>
+  </main>
+</body>
+</html>
