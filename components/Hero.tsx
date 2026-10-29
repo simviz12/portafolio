@@ -6,7 +6,7 @@ import { usePortfolio } from "@/context/PortfolioContext";
 
 export default function Hero() {
   const { isEnglish } = usePortfolio();
-  const [photoOk, setPhotoOk] = useState(false);
+  const [photoError, setPhotoError] = useState(false);
 
   return (
     <section
@@ -118,17 +118,16 @@ export default function Hero() {
 
             <div className="relative w-full h-full rounded-full p-2 bg-gradient-to-tr from-[#00f5d4] via-emerald-500/30 to-transparent shadow-[0_0_50px_rgba(0,245,212,0.25)] flex items-center justify-center">
               <div className="photo-frame w-full h-full rounded-full overflow-hidden relative flex flex-col items-center justify-center shadow-inner border-2 border-[#00f5d4]/50">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/img/perfil.jpg"
-                  alt="Carlos Julián Benavides"
-                  className={`absolute inset-0 w-full h-full object-cover z-10 scale-[1.25] ${photoOk ? "opacity-100" : "opacity-0"}`}
-                  style={{ objectPosition: "center 80%" }}
-                  onLoad={() => setPhotoOk(true)}
-                  onError={() => setPhotoOk(false)}
-                />
-
-                {!photoOk && (
+                {!photoError ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src="/img/perfil.jpg"
+                    alt="Carlos Julián Benavides"
+                    className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.55] transition-transform duration-500 hover:scale-[1.62]"
+                    style={{ objectPosition: "center 52%" }}
+                    onError={() => setPhotoError(true)}
+                  />
+                ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center text-center p-6 photo-placeholder relative hero-scan">
                     <div className="w-32 h-32 rounded-full bg-[#00f5d4]/15 border border-[#00f5d4]/40 flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(0,245,212,0.2)]">
                       <User className="w-16 h-16 text-[#00f5d4]" />
@@ -137,9 +136,6 @@ export default function Hero() {
                     <div className="font-valorant-mono text-xs text-[#00f5d4] mt-1 font-bold">
                       {isEnglish ? "PROFILE PHOTO" : "FOTO DE PERFIL"}
                     </div>
-                    <span className="font-valorant-mono text-[10px] text-[#8b9bb4] mt-2 max-w-[200px]">
-                      {isEnglish ? "(Place your picture in public/foto.jpg)" : "(Coloca tu foto en public/foto.jpg)"}
-                    </span>
                   </div>
                 )}
 
