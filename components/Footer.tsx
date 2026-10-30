@@ -4,7 +4,7 @@ import { usePortfolio } from "@/context/PortfolioContext";
 import { GithubIcon, LinkedinIcon } from "@/components/Icons";
 import { Mail } from "lucide-react";
 import Logo from "@/components/Logo";
-import { EMAIL, GITHUB_URL, LINKEDIN_URL, PHONE, PHONE_TEL } from "@/data/social";
+import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/social";
 
 export default function Footer() {
   const { isEnglish } = usePortfolio();
@@ -28,23 +28,23 @@ export default function Footer() {
                 <h4 className="font-valorant-title text-xl text-[#ece8e1] tracking-wide leading-none">
                   Carlos Benavides
                 </h4>
-                <p className="font-valorant-mono text-[11px] text-[#00f5d4] mt-1.5 tracking-wider">
-                  {isEnglish ? "PRODUCT ENGINEER" : "PRODUCT ENGINEER"}
+                <p className="font-valorant-mono text-xs text-[#00f5d4] mt-1 font-semibold">
+                  Product Engineer &bull; Full Stack &bull; Unity VR
                 </p>
               </div>
             </a>
             <p className="font-valorant-hud text-sm text-[#8b9bb4] leading-relaxed">
               {isEnglish
-                ? "Full stack and immersive technologies — software, VR and applied AI from Pasto, Nariño."
-                : "Full stack y tecnologías inmersivas — software, VR e IA aplicada desde Pasto, Nariño."}
+                ? "Full Stack software development and Unity VR. Independent product developer since 2024, UCC research seedbeds, and former competitive athlete."
+                : "Desarrollo de software Full Stack y Unity VR. Desarrollo de producto independiente desde 2024, semilleros UCC y ex-atleta de alto rendimiento."}
             </p>
           </div>
 
-          <nav aria-label={isEnglish ? "Footer" : "Pie de página"} className="lg:pt-1">
+          <nav aria-label="Navegación del pie">
             <p className="font-valorant-mono text-[11px] tracking-[0.2em] text-[#00f5d4] mb-3 uppercase">
-              {isEnglish ? "Navigate" : "Navegar"}
+              {isEnglish ? "Navigation" : "Navegación"}
             </p>
-            <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            <ul className="space-y-2">
               {links.map((link) => (
                 <li key={link.href}>
                   <a
@@ -64,15 +64,9 @@ export default function Footer() {
             </p>
             <a
               href={`mailto:${EMAIL}`}
-              className="font-valorant-hud text-sm text-[#ece8e1] hover:text-[#00f5d4] transition-colors inline-block"
+              className="font-valorant-hud text-sm text-[#ece8e1] hover:text-[#00f5d4] transition-colors inline-block mb-4"
             >
               {EMAIL}
-            </a>
-            <a
-              href={`tel:${PHONE_TEL}`}
-              className="font-valorant-hud text-sm text-[#ece8e1] hover:text-[#00f5d4] transition-colors inline-block mb-4 mt-1"
-            >
-              {PHONE}
             </a>
             <div className="flex items-center gap-2.5 lg:justify-end">
               <a

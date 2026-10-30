@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Send, CheckCircle2, Mail, AlertCircle, Phone } from "lucide-react";
+import { Send, CheckCircle2, Mail, AlertCircle } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/Icons";
 import { usePortfolio } from "@/context/PortfolioContext";
-import { EMAIL, GITHUB_URL, LINKEDIN_URL, PHONE, PHONE_TEL } from "@/data/social";
+import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/social";
 import { sendContactMessage } from "@/app/actions/contact";
 
 export default function Contact() {
@@ -138,14 +138,6 @@ export default function Contact() {
             >
               <Mail className="w-4 h-4" />
               <span>{EMAIL}</span>
-            </a>
-
-            <a
-              href={`tel:${PHONE_TEL}`}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#121c26] hover:bg-[#00f5d4] text-[#00f5d4] hover:text-[#090e14] border border-[#00f5d4]/40 transition-all font-valorant-mono text-xs font-bold"
-            >
-              <Phone className="w-4 h-4" />
-              <span>{PHONE}</span>
             </a>
 
             <a
