@@ -6,6 +6,7 @@ import { Download, ArrowDownRight, User, Sparkles } from "lucide-react";
 import { usePortfolio } from "@/context/PortfolioContext";
 import Magnetic from "@/components/fx/Magnetic";
 import TiltCard from "@/components/fx/TiltCard";
+import { fitStyle } from "@/components/fx/fit";
 
 const letter: Variants = {
   hidden: { y: "115%", rotateX: -80, opacity: 0 },
@@ -74,7 +75,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
     >
       <div className="relative w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-6 items-center">
         {/* ---------- Copy ---------- */}
-        <motion.div className="lg:col-span-8 relative z-10" style={{ y: titleY, opacity: titleOpacity }}>
+        <motion.div className="@container min-w-0 lg:col-span-8 relative z-10" style={{ y: titleY, opacity: titleOpacity }}>
           <motion.div variants={fade(0)} className="flex flex-wrap items-center gap-3 mb-8">
             <span className="glass inline-flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full">
               <span className="relative flex w-2.5 h-2.5">
@@ -96,7 +97,10 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
               : "Product Engineer · Full Stack & Tecnologías Inmersivas"}
           </motion.p>
 
-          <h1 className="font-display font-extrabold uppercase leading-[0.82] text-ink select-none text-[clamp(2.4rem,9.6vw,8rem)] lg:text-[clamp(4rem,6.6vw,7.6rem)]">
+          <h1
+            className="font-display font-extrabold uppercase leading-[0.82] text-ink select-none"
+            style={fitStyle("clamp(3rem,11vw,9rem)", "Benavides")}
+          >
             <Letters word="Carlos" />
             <br />
             <motion.span style={{ x: outlineX }} className="inline-block pl-[8%] sm:pl-[14%]">
@@ -204,7 +208,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             </div>
 
             <motion.div
-              className="glass absolute -left-8 sm:-left-14 top-10 rounded-2xl px-4 py-3"
+              className="glass absolute -left-3 sm:-left-14 top-10 rounded-2xl px-4 py-3"
               style={{ transform: "translateZ(70px)" }}
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
@@ -216,7 +220,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
             </motion.div>
 
             <motion.div
-              className="glass absolute -right-4 sm:-right-8 bottom-24 rounded-2xl px-4 py-3 flex items-center gap-2.5"
+              className="glass absolute -right-2 sm:-right-8 bottom-24 rounded-2xl px-4 py-3 flex items-center gap-2.5"
               style={{ transform: "translateZ(90px)" }}
               animate={{ y: [0, 12, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}

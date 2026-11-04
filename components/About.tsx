@@ -7,6 +7,7 @@ import SectionHeading from "@/components/fx/SectionHeading";
 import ScrollText from "@/components/fx/ScrollText";
 import TiltCard from "@/components/fx/TiltCard";
 import { Reveal, Stagger, RevealItem } from "@/components/fx/Reveal";
+import { fitStyle } from "@/components/fx/fit";
 
 const RangeGame = dynamic(() => import("@/components/game/RangeGame"), {
   ssr: false,
@@ -236,12 +237,15 @@ export default function About() {
         {/* Interactive range */}
         <div className="mt-32">
           <Reveal className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-8">
-            <div>
+            <div className="@container w-full sm:flex-1 min-w-0">
               <div className="flex items-center gap-2 font-mono text-[11px] tracking-[0.3em] text-accent-ink uppercase">
                 <Crosshair className="w-3.5 h-3.5" />
                 {isEnglish ? "Interactive simulation · WebGL" : "Simulación interactiva · WebGL"}
               </div>
-              <h3 className="mt-3 font-display font-extrabold text-4xl sm:text-5xl text-ink uppercase tracking-tight">
+              <h3
+                className="mt-3 font-display font-extrabold text-ink uppercase tracking-tight"
+                style={fitStyle("3rem", isEnglish ? "Decrypt my" : "Desencripta mi", isEnglish ? "dossier" : "expediente")}
+              >
                 {isEnglish ? "Decrypt my " : "Desencripta mi "}
                 <span className="font-serif-i normal-case font-normal text-gradient">{isEnglish ? "dossier" : "expediente"}</span>
               </h3>

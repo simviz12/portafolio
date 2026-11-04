@@ -8,6 +8,7 @@ import { usePortfolio } from "@/context/PortfolioContext";
 import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/social";
 import Magnetic from "@/components/fx/Magnetic";
 import { Reveal, SplitWords } from "@/components/fx/Reveal";
+import { fitStyle } from "@/components/fx/fit";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -149,15 +150,20 @@ export default function Contact() {
         <div className="flex items-center gap-3 mb-8 font-mono text-[11px] tracking-[0.3em] uppercase text-muted">
           <span className="text-accent-ink">06</span>
           <span className="h-px w-10 bg-gradient-to-r from-accent to-transparent" />
-          <span>{t.eyebrow}</span>
+          <span className="min-w-0 break-words">{t.eyebrow}</span>
         </div>
 
-        <h2 className="font-display font-extrabold uppercase leading-[0.85] text-ink text-[clamp(3rem,10vw,9.5rem)]">
+        <div className="@container">
+        <h2
+          className="font-display font-extrabold uppercase leading-[0.85] text-ink"
+          style={fitStyle("clamp(3rem,10vw,9.5rem)", t.title1, t.title2)}
+        >
           <SplitWords text={t.title1} />{" "}
           <span className="font-serif-i normal-case font-normal text-gradient text-glow">
             <SplitWords text={t.title2} delay={0.2} />
           </span>
         </h2>
+        </div>
 
         <div className="mt-14 sm:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           {/* ---------- Explanation ---------- */}
@@ -215,8 +221,12 @@ export default function Contact() {
                 </span>
                 <div className="min-w-0">
                   <div className="font-display font-bold text-lg text-ink">{t.formTitle}</div>
-                  <div className="text-sm text-muted truncate">
-                    {t.formTo}: <span className="font-mono text-accent-ink">{EMAIL}</span>
+                  <div className="text-sm text-muted">
+                    {t.formTo}:{" "}
+                    <span className="font-mono text-xs sm:text-sm text-accent-ink">
+                      {EMAIL.split("@")[0]}@<wbr />
+                      {EMAIL.split("@")[1]}
+                    </span>
                   </div>
                 </div>
               </div>

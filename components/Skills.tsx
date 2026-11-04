@@ -184,7 +184,7 @@ export default function Skills() {
                         <ul className="divide-y divide-[var(--glass-border)]">
                           {group.skills.map((s) => (
                             <li key={s.name} className="py-4 first:pt-0 last:pb-0 group/skill">
-                              <div className="flex items-center justify-between gap-3">
+                              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
                                 <span className="font-display font-bold text-ink group-hover/skill:translate-x-1 transition-transform duration-300">
                                   {s.name}
                                 </span>

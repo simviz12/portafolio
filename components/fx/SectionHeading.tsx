@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { SplitWords } from "@/components/fx/Reveal";
+import { fitStyle } from "@/components/fx/fit";
 
 /** Asymmetric section header: index · eyebrow, giant title, serif accent, side note. */
 export default function SectionHeading({
@@ -25,7 +26,7 @@ export default function SectionHeading({
         align === "right" ? "lg:text-right" : ""
       }`}
     >
-      <div className={`lg:col-span-8 ${align === "right" ? "lg:col-start-5 lg:order-2" : ""}`}>
+      <div className={`@container min-w-0 lg:col-span-8 ${align === "right" ? "lg:col-start-5 lg:order-2" : ""}`}>
         <motion.div
           initial={{ opacity: 0, x: align === "right" ? 30 : -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -37,9 +38,12 @@ export default function SectionHeading({
         >
           <span className="text-accent-ink">{index}</span>
           <span className="h-px w-10 bg-gradient-to-r from-accent to-transparent" />
-          <span>{eyebrow}</span>
+          <span className="min-w-0 break-words">{eyebrow}</span>
         </motion.div>
-        <h2 className="font-display font-extrabold uppercase text-[clamp(2.6rem,7.5vw,7rem)] leading-[0.88] text-ink">
+        <h2
+          className="font-display font-extrabold uppercase leading-[0.88] text-ink"
+          style={fitStyle("clamp(2.6rem,7.5vw,7rem)", title, accent)}
+        >
           <SplitWords text={title} />
           {accent && (
             <>

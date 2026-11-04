@@ -6,6 +6,7 @@ import { Award, Trophy, GraduationCap, Sparkles, FlaskConical } from "lucide-rea
 import { usePortfolio } from "@/context/PortfolioContext";
 import SectionHeading from "@/components/fx/SectionHeading";
 import TiltCard from "@/components/fx/TiltCard";
+import { fitStyle } from "@/components/fx/fit";
 
 export default function Experience() {
   const { isEnglish } = usePortfolio();
@@ -89,9 +90,9 @@ export default function Experience() {
 
         <div ref={ref} className="relative max-w-5xl mx-auto">
           {/* Track + scroll-drawn beam */}
-          <div className="absolute left-5 md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-glass-border" />
+          <div className="absolute left-3.5 sm:left-5 md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-glass-border" />
           <motion.div
-            className="absolute left-5 md:left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 origin-top"
+            className="absolute left-3.5 sm:left-5 md:left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 origin-top"
             style={{
               scaleY: line,
               background: "linear-gradient(to bottom, var(--accent), var(--accent-2), var(--accent-3))",
@@ -103,9 +104,9 @@ export default function Experience() {
             {items.map((item, idx) => {
               const isLeft = idx % 2 === 0;
               return (
-                <div key={item.role} className="relative grid grid-cols-[40px_1fr] md:grid-cols-2 md:gap-20 items-start">
+                <div key={item.role} className="relative grid grid-cols-[28px_minmax(0,1fr)] sm:grid-cols-[40px_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-20 items-start">
                   <motion.div
-                    className="absolute left-5 md:left-1/2 top-8 -translate-x-1/2 z-10 w-11 h-11 rounded-full glass-strong flex items-center justify-center"
+                    className="absolute left-3.5 sm:left-5 md:left-1/2 top-8 -translate-x-1/2 z-10 w-8 h-8 sm:w-11 sm:h-11 rounded-full glass-strong flex items-center justify-center"
                     initial={{ scale: 0, rotate: -90 }}
                     whileInView={{ scale: 1, rotate: 0 }}
                     viewport={{ once: true, margin: "-30% 0px" }}
@@ -124,7 +125,7 @@ export default function Experience() {
                     style={{ transformPerspective: 1200 }}
                   >
                     <TiltCard max={6} className="rounded-[1.8rem]">
-                      <div className={`glass glow-border rounded-[1.8rem] p-7 sm:p-9 ${isLeft ? "md:text-right" : ""}`}>
+                      <div className={`@container glass glow-border rounded-[1.8rem] p-4 sm:p-9 ${isLeft ? "md:text-right" : ""}`}>
                         <div className={`flex flex-wrap items-center gap-2 mb-5 ${isLeft ? "md:justify-end" : ""}`}>
                           <span className="font-mono text-[10.5px] tracking-[0.2em] text-muted">{item.period}</span>
                           <span className="h-px w-6 bg-glass-border" />
@@ -132,10 +133,13 @@ export default function Experience() {
                             {item.badge}
                           </span>
                         </div>
-                        <h3 className="font-display font-extrabold text-2xl sm:text-3xl text-ink leading-tight tracking-tight">
+                        <h3
+                          className="font-display font-extrabold text-ink leading-tight tracking-tight"
+                          style={fitStyle("clamp(1.25rem,3vw,1.875rem)", item.role, "", 0.82)}
+                        >
                           {item.role}
                         </h3>
-                        <div className="mt-1.5 font-mono text-[11px] tracking-wide text-accent-ink">{item.entity}</div>
+                        <div className="mt-1.5 font-mono text-[10px] sm:text-[11px] tracking-wide text-accent-ink break-words">{item.entity}</div>
                         <p className="mt-5 text-muted leading-relaxed">{item.desc}</p>
                       </div>
                     </TiltCard>
