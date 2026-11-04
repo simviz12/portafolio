@@ -90,6 +90,7 @@ export function SplitWords({
     : { initial: "hidden", whileInView: "show", viewport: { once: true, margin: "-10% 0px" } };
   return (
     <motion.span
+      key={text}
       className={`inline ${className}`}
       aria-label={text}
       {...trigger}

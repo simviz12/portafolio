@@ -18,7 +18,7 @@ function Word({ word, hl, range, progress }: { word: string; hl?: boolean; range
 /** Paragraph whose words light up one by one as it travels through the viewport. */
 export default function ScrollText({ segments, className = "" }: { segments: Segment[]; className?: string }) {
   const ref = useRef<HTMLParagraphElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.45"] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.95", "start 0.3"] });
 
   const words = segments.flatMap((s) => s.t.split(" ").filter(Boolean).map((w) => ({ w, hl: s.hl })));
   const total = words.length;
