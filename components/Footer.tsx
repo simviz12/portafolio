@@ -2,8 +2,9 @@
 
 import { usePortfolio } from "@/context/PortfolioContext";
 import { GithubIcon, LinkedinIcon } from "@/components/Icons";
-import { Mail } from "lucide-react";
+import { ArrowUp, Mail } from "lucide-react";
 import Logo from "@/components/Logo";
+import Magnetic from "@/components/fx/Magnetic";
 import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/data/social";
 
 export default function Footer() {
@@ -17,40 +18,42 @@ export default function Footer() {
     { href: "#contacto", label: isEnglish ? "Contact" : "Contacto" },
   ];
 
+  const socials = [
+    { href: GITHUB_URL, label: "GitHub", icon: <GithubIcon className="w-4 h-4" />, external: true },
+    { href: LINKEDIN_URL, label: "LinkedIn", icon: <LinkedinIcon className="w-4 h-4" />, external: true },
+    { href: `mailto:${EMAIL}`, label: "Email", icon: <Mail className="w-4 h-4" />, external: false },
+  ];
+
   return (
-    <footer className="w-full bg-[#070b10] border-t border-[#00f5d4]/20 transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10">
-          <div className="max-w-sm">
-            <a href="#inicio" className="flex items-center gap-3 mb-4">
+    <footer className="relative z-10 w-full overflow-hidden border-t border-glass-border glass-strong">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-16 pb-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="md:col-span-5">
+            <a href="#inicio" className="flex items-center gap-3 mb-5">
               <Logo size={44} />
               <div>
-                <h4 className="font-valorant-title text-xl text-[#ece8e1] tracking-wide leading-none">
-                  Carlos Benavides
-                </h4>
-                <p className="font-valorant-mono text-xs text-[#00f5d4] mt-1 font-semibold">
-                  Product Engineer &bull; Full Stack &bull; Unity VR
-                </p>
+                <div className="font-display font-bold text-lg text-ink leading-none">Carlos Benavides</div>
+                <div className="font-mono text-[10px] tracking-[0.2em] text-muted mt-1.5 uppercase">
+                  Product Engineer · Full Stack · Unity VR
+                </div>
               </div>
             </a>
-            <p className="font-valorant-hud text-sm text-[#8b9bb4] leading-relaxed">
+            <p className="text-muted leading-relaxed max-w-sm">
               {isEnglish
                 ? "Full Stack software development and Unity VR. Independent product developer since 2024, UCC research seedbeds, and former competitive athlete."
                 : "Desarrollo de software Full Stack y Unity VR. Desarrollo de producto independiente desde 2024, semilleros UCC y ex-atleta de alto rendimiento."}
             </p>
           </div>
 
-          <nav aria-label="Navegación del pie">
-            <p className="font-valorant-mono text-[11px] tracking-[0.2em] text-[#00f5d4] mb-3 uppercase">
+          <nav aria-label={isEnglish ? "Footer navigation" : "Navegación del pie"} className="md:col-span-3">
+            <p className="font-mono text-[10.5px] tracking-[0.25em] text-accent-ink mb-4 uppercase">
               {isEnglish ? "Navigation" : "Navegación"}
             </p>
             <ul className="space-y-2">
               {links.map((link) => (
                 <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="font-valorant-hud text-sm text-[#ece8e1] hover:text-[#00f5d4] transition-colors"
-                  >
+                  <a href={link.href} className="group inline-flex items-center gap-2 text-ink hover:text-accent-ink transition-colors">
+                    <span className="h-px w-0 bg-accent group-hover:w-4 transition-all duration-300" />
                     {link.label}
                   </a>
                 </li>
@@ -58,53 +61,46 @@ export default function Footer() {
             </ul>
           </nav>
 
-          <div className="lg:pt-1 lg:text-right">
-            <p className="font-valorant-mono text-[11px] tracking-[0.2em] text-[#00f5d4] mb-3 uppercase">
+          <div className="md:col-span-4 md:text-right">
+            <p className="font-mono text-[10.5px] tracking-[0.25em] text-accent-ink mb-4 uppercase">
               {isEnglish ? "Contact" : "Contacto"}
             </p>
-            <a
-              href={`mailto:${EMAIL}`}
-              className="font-valorant-hud text-sm text-[#ece8e1] hover:text-[#00f5d4] transition-colors inline-block mb-4"
-            >
+            <a href={`mailto:${EMAIL}`} className="text-ink hover:text-accent-ink transition-colors inline-block mb-5 break-all">
               {EMAIL}
             </a>
-            <div className="flex items-center gap-2.5 lg:justify-end">
-              <a
-                href={GITHUB_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="GitHub"
-                className="w-10 h-10 rounded-xl bg-[#121c26] hover:bg-[#00f5d4] text-[#ece8e1] hover:text-[#090e14] border border-white/10 hover:border-[#00f5d4] flex items-center justify-center transition-all"
-              >
-                <GithubIcon className="w-4 h-4" />
-              </a>
-              <a
-                href={LINKEDIN_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="LinkedIn"
-                className="w-10 h-10 rounded-xl bg-[#121c26] hover:bg-[#00f5d4] text-[#ece8e1] hover:text-[#090e14] border border-white/10 hover:border-[#00f5d4] flex items-center justify-center transition-all"
-              >
-                <LinkedinIcon className="w-4 h-4" />
-              </a>
-              <a
-                href={`mailto:${EMAIL}`}
-                title="Email"
-                className="w-10 h-10 rounded-xl bg-[#121c26] hover:bg-[#00f5d4] text-[#ece8e1] hover:text-[#090e14] border border-white/10 hover:border-[#00f5d4] flex items-center justify-center transition-all"
-              >
-                <Mail className="w-4 h-4" />
-              </a>
+            <div className="flex items-center gap-2.5 md:justify-end">
+              {socials.map((s) => (
+                <Magnetic key={s.label} strength={0.45}>
+                  <a
+                    href={s.href}
+                    {...(s.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    title={s.label}
+                    className="btn-ghost w-11 h-11 rounded-full flex items-center justify-center hover:border-accent hover:text-accent-ink transition-colors"
+                  >
+                    {s.icon}
+                  </a>
+                </Magnetic>
+              ))}
+              <Magnetic strength={0.45}>
+                <a
+                  href="#inicio"
+                  title={isEnglish ? "Back to top" : "Volver arriba"}
+                  className="btn-neon w-11 h-11 rounded-full flex items-center justify-center"
+                >
+                  <ArrowUp className="w-4 h-4" />
+                </a>
+              </Magnetic>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-          <p className="font-valorant-mono text-xs text-[#8b9bb4] text-center">
-            &copy; 2026 Carlos Julián Benavides Burbano.{" "}
-            {isEnglish ? "All rights reserved." : "Todos los derechos reservados."}
+      <div className="relative border-t border-glass-border">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 font-mono text-[11px] text-muted">
+          <p>
+            &copy; 2026 Carlos Julián Benavides Burbano. {isEnglish ? "All rights reserved." : "Todos los derechos reservados."}
           </p>
+          <p>Pasto · Colombia</p>
         </div>
       </div>
     </footer>

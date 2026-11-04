@@ -20,30 +20,23 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   // Requisitos explícitos del usuario:
   // 1. "la página cuando se inicia, inicia en inglés."
   // 2. "siempre la página debe iniciar en modo claro, nunca en modo oscuro."
+  //    El modo oscuro es la versión cinematográfica (OLED + neón) y solo se activa con el toggle.
   const [isEnglish, setIsEnglish] = useState<boolean>(true);
   const [theme, setTheme] = useState<Theme>("light");
 
-  // Sincronizar clases en el elemento HTML y body para garantizar que TODO cambie
+  // Los tokens de color viven en CSS variables bajo .theme-light / .theme-dark en <html>.
   useEffect(() => {
     const root = document.documentElement;
-    const body = document.body;
-    if (theme === "light") {
-      root.classList.add("theme-light");
-      root.classList.remove("theme-dark");
-      body.classList.add("theme-light");
-      body.classList.remove("theme-dark");
-    } else {
-      root.classList.add("theme-dark");
-      root.classList.remove("theme-light");
-      body.classList.add("theme-dark");
-      body.classList.remove("theme-light");
-    }
+    root.classList.toggle("theme-light", theme === "light");
+    root.classList.toggle("theme-dark", theme === "dark");
   }, [theme]);
 
+  useEffect(() => {
+    document.documentElement.lang = isEnglish ? "en" : "es";
+  }, [isEnglish]);
+
   const toggleLanguage = () => setIsEnglish((prev) => !prev);
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  };
+  const toggleTheme = () => setTheme((prev) => (prev === "light" ? "dark" : "light"));
 
   return (
     <PortfolioContext.Provider
@@ -56,9 +49,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
         toggleTheme,
       }}
     >
-      <div className={`portfolio-root ${theme === "light" ? "theme-light" : "theme-dark"} min-h-screen transition-colors duration-200`}>
-        {children}
-      </div>
+      {children}
     </PortfolioContext.Provider>
   );
 }

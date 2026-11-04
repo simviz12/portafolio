@@ -1,17 +1,35 @@
 "use client";
 
-import { Award, Trophy, Code2, Cpu, Database, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Award, Trophy, Code2, Cpu, Database, Sparkles } from "lucide-react";
 import { usePortfolio } from "@/context/PortfolioContext";
+import SectionHeading from "@/components/fx/SectionHeading";
+import TiltCard from "@/components/fx/TiltCard";
+
+type Tab = "skills" | "langs" | "sports";
+
+const panel = {
+  initial: { opacity: 0, y: 40, filter: "blur(10px)" },
+  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+  exit: { opacity: 0, y: -30, filter: "blur(10px)" },
+  transition: { type: "spring", stiffness: 120, damping: 20 },
+} as const;
+
+const item = {
+  hidden: { opacity: 0, y: 40, rotateX: -20 },
+  show: { opacity: 1, y: 0, rotateX: 0, transition: { type: "spring", stiffness: 110, damping: 16 } },
+} as const;
 
 export default function Skills() {
   const { isEnglish } = usePortfolio();
-  const [tab, setTab] = useState<"skills" | "langs" | "sports">("skills");
+  const [tab, setTab] = useState<Tab>("skills");
 
   const skillCategories = [
     {
-      category: isEnglish ? "WEB & FRONTEND DEVELOPMENT" : "DESARROLLO WEB & FRONTEND",
-      icon: <Code2 className="w-5 h-5 text-[#00f5d4]" />,
+      category: isEnglish ? "Web & Frontend" : "Web & Frontend",
+      icon: Code2,
+      hue: "var(--accent)",
       skills: [
         { name: "React", level: isEnglish ? "Advanced" : "Avanzado", focus: isEnglish ? "Modular components, hooks, global state, custom architectures" : "Componentes modulares, hooks, estado global, arquitecturas limpias" },
         { name: "Next.js", level: isEnglish ? "In Production" : "En Producción", focus: isEnglish ? "App Router, SSR, Server Components, performance tuning" : "App Router, SSR, Server Components, optimización de velocidad" },
@@ -20,8 +38,9 @@ export default function Skills() {
       ],
     },
     {
-      category: isEnglish ? "BACKEND & DATABASES" : "BACKEND & BASES DE DATOS",
-      icon: <Database className="w-5 h-5 text-emerald-400" />,
+      category: isEnglish ? "Backend & Databases" : "Backend & Bases de datos",
+      icon: Database,
+      hue: "var(--accent-2)",
       skills: [
         { name: "Spring Boot & Java", level: isEnglish ? "Enterprise" : "Empresarial", focus: isEnglish ? "Multilayer architecture, dependency injection, RESTful APIs" : "Arquitectura multicapa, inyección de dependencias, APIs RESTful" },
         { name: "Django & Python", level: isEnglish ? "Active" : "Activo", focus: isEnglish ? "Robust server logic, admin workflows and product backends" : "Lógica de servidor robusta, paneles admin y backends de producto" },
@@ -30,8 +49,9 @@ export default function Skills() {
       ],
     },
     {
-      category: isEnglish ? "AI, LLMs & MULTI-AGENTS" : "IA, LLMs & MULTI-AGENTES",
-      icon: <Sparkles className="w-5 h-5 text-[#00f5d4]" />,
+      category: isEnglish ? "AI, LLMs & Multi-Agents" : "IA, LLMs & Multi-Agentes",
+      icon: Sparkles,
+      hue: "var(--accent-3)",
       skills: [
         { name: "Multi-Agent Systems", level: isEnglish ? "Applied" : "Aplicado", focus: isEnglish ? "Agent orchestration, tool-calling loops, specialized roles and coordinated workflows" : "Orquestación de agentes, tool-calling, roles especializados y flujos coordinados" },
         { name: "LLM Applications", level: isEnglish ? "Production-ready" : "Listo para producción", focus: isEnglish ? "OpenAI / Claude / Gemini APIs, structured outputs, function calling and evals" : "APIs de OpenAI, Claude y Gemini, salidas estructuradas, function calling y evaluación" },
@@ -40,8 +60,9 @@ export default function Skills() {
       ],
     },
     {
-      category: isEnglish ? "MOBILE, ML & ENGINEERING" : "MOBILE, ML & INGENIERÍA",
-      icon: <Cpu className="w-5 h-5 text-teal-300" />,
+      category: isEnglish ? "Mobile, ML & Engineering" : "Mobile, ML & Ingeniería",
+      icon: Cpu,
+      hue: "var(--accent)",
       skills: [
         { name: "Unity VR / AR", level: isEnglish ? "Product" : "Producto", focus: isEnglish ? "Immersive environments and games with high-precision, fluent UX" : "Entornos inmersivos y juegos con UX fluida y de alta precisión" },
         { name: "Android / Mobile", level: isEnglish ? "Cross-platform" : "Multiplataforma", focus: isEnglish ? "Native and Flutter apps (The Guardian) plus product interfaces" : "Apps nativas y Flutter (The Guardian) más interfaces de producto" },
@@ -51,208 +72,221 @@ export default function Skills() {
     },
   ];
 
+  const achievements = [
+    {
+      img: "/img/boxeo.jpg",
+      pos: "center 18%",
+      alt: "Subcampeón nacional de boxeo",
+      icon: Trophy,
+      hue: "var(--accent)",
+      title: isEnglish ? "National Boxing Runner-up" : "Subcampeón Nacional de Boxeo",
+      sub: isEnglish ? "HIGH PERFORMANCE ATHLETE (RETIRED)" : "DEPORTE DE ALTO RENDIMIENTO (RETIRADO)",
+      desc: isEnglish
+        ? "Years of intense physical and mental conditioning in competitive boxing, cultivating absolute self-discipline, resilience under pressure, and strategic composure."
+        : "Años de formación en boxeo competitivo. Aprendizaje profundo sobre perseverancia, enfoque en momentos de máxima presión, respeto y disciplina diaria.",
+    },
+    {
+      img: "/img/relconsid.jpeg",
+      pos: "center",
+      alt: "Evaluación REDCOLSI",
+      icon: Award,
+      hue: "var(--accent-2)",
+      title: isEnglish ? "REDCOLSI Research Evaluation" : "Evaluado en REDCOLSI",
+      sub: isEnglish ? "COLOMBIAN SEEDBED NETWORK" : "RED COLOMBIANA DE SEMILLEROS DE INVESTIGACIÓN",
+      desc: isEnglish
+        ? "Evaluated and endorsed by REDCOLSI for scientific rigour and practical technical execution within university software research."
+        : "Participación y evaluación oficial en REDCOLSI sustentando avances científicos y desarrollo aplicado de software en el semillero institucional UCC.",
+    },
+    {
+      img: "/img/hackathon.jpg",
+      pos: "center 35%",
+      alt: "Hackathon quinto puesto",
+      icon: Trophy,
+      hue: "var(--accent-3)",
+      title: isEnglish ? "5th Place in Hackathon" : "5° Puesto en Hackathon",
+      sub: isEnglish ? "3 TOTAL COMPETITIVE HACKATHONS" : "3 PARTICIPACIONES ENTRE 2024 Y 2026",
+      desc: isEnglish
+        ? "Secured 5th position developing a functional prototype in less than 48 hours. Proven endurance and teamwork solving complex architectural challenges."
+        : "5° lugar diseñando y codificando un prototipo tecnológico funcional en 48 horas continuas. Experiencia comprobada trabajando en equipo contrarreloj.",
+    },
+  ];
+
+  const tabs: { id: Tab; label: string }[] = [
+    { id: "skills", label: isEnglish ? "Stack & Skills" : "Stack & Habilidades" },
+    { id: "langs", label: isEnglish ? "Languages" : "Idiomas" },
+    { id: "sports", label: isEnglish ? "Achievements" : "Deporte & Logros" },
+  ];
+
   return (
-    <section id="habilidades" className="w-full px-4 sm:px-6 lg:px-8 py-20 flex flex-col items-center">
-      
-      {/* Header */}
-      <div className="w-full max-w-7xl flex flex-col gap-2 mb-10 text-center sm:text-left">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#00f5d4]/10 border border-[#00f5d4]/30 text-[#00f5d4] font-valorant-mono text-xs self-center sm:self-start font-semibold">
-          <span>{isEnglish ? "TECHNICAL TELEMETRY • PRACTICAL MASTERY" : "PARÁMETROS TÉCNICOS • TELEMETRÍA Y DOMINIO PRÁCTICO"}</span>
-        </div>
-        <h3 className="font-valorant-title text-4xl sm:text-5xl tracking-wide uppercase leading-none">
-          {isEnglish ? "SKILLS & COMPETENCIES" : "HABILIDADES & COMPETENCIAS"}
-        </h3>
-        <p className="text-sm sm:text-base opacity-75 font-valorant-hud max-w-3xl">
-          {isEnglish
-            ? "Hands-on capabilities across full-stack engineering, applied AI, multi-agent systems, research seedbeds and production code."
-            : "Capacidades comprobadas en ingeniería full-stack, IA aplicada, sistemas multi-agente, semillero de investigación y código en producción."}
-        </p>
-      </div>
+    <section id="habilidades" className="relative w-full px-5 sm:px-8 lg:px-12 py-28 sm:py-40">
+      <div className="w-full max-w-7xl mx-auto">
+        <SectionHeading
+          index="05"
+          eyebrow={isEnglish ? "Technical telemetry · Practical mastery" : "Telemetría técnica · Dominio práctico"}
+          title={isEnglish ? "Skills &" : "Skills &"}
+          accent={isEnglish ? "competencies" : "competencias"}
+          note={
+            isEnglish
+              ? "Hands-on capabilities across full-stack engineering, applied AI, multi-agent systems, research seedbeds and production code."
+              : "Capacidades comprobadas en ingeniería full-stack, IA aplicada, sistemas multi-agente, semillero de investigación y código en producción."
+          }
+        />
 
-      {/* Contenedor principal sin fondos grises: Blanco en claro, oscuro táctico en oscuro */}
-      <div className="w-full max-w-7xl rounded-3xl bg-white dark:bg-[#0f1923]/95 border border-slate-200 dark:border-[#00f5d4]/25 p-6 sm:p-8 shadow-xl backdrop-blur-xl">
-        
-        {/* Navigation Tabs */}
-        <div className="grid grid-cols-3 gap-2 mb-8 p-1.5 rounded-2xl bg-slate-100 dark:bg-black/40 border border-slate-200 dark:border-white/5">
-          <button
-            onClick={() => setTab("skills")}
-            className={`py-3 text-xs sm:text-sm font-valorant-mono font-bold tracking-wider uppercase transition-all rounded-xl cursor-pointer ${
-              tab === "skills" ? "bg-[#00f5d4] text-[#090e14] shadow-[0_0_20px_rgba(0,245,212,0.4)]" : "text-slate-600 dark:text-[#8b9bb4] hover:text-[#00f5d4]"
-            }`}
-          >
-            {isEnglish ? "STACK & SKILLS" : "STACK & HABILIDADES"}
-          </button>
-          <button
-            onClick={() => setTab("langs")}
-            className={`py-3 text-xs sm:text-sm font-valorant-mono font-bold tracking-wider uppercase transition-all rounded-xl cursor-pointer ${
-              tab === "langs" ? "bg-[#00f5d4] text-[#090e14] shadow-[0_0_20px_rgba(0,245,212,0.4)]" : "text-slate-600 dark:text-[#8b9bb4] hover:text-[#00f5d4]"
-            }`}
-          >
-            {isEnglish ? "LANGUAGES" : "IDIOMAS"}
-          </button>
-          <button
-            onClick={() => setTab("sports")}
-            className={`py-3 text-xs sm:text-sm font-valorant-mono font-bold tracking-wider uppercase transition-all rounded-xl cursor-pointer ${
-              tab === "sports" ? "bg-[#00f5d4] text-[#090e14] shadow-[0_0_20px_rgba(0,245,212,0.4)]" : "text-slate-600 dark:text-[#8b9bb4] hover:text-[#00f5d4]"
-            }`}
-          >
-            {isEnglish ? "ACHIEVEMENTS" : "DEPORTE & LOGROS"}
-          </button>
+        {/* Segmented control with a spring-shared pill */}
+        <div className="glass-strong inline-flex flex-wrap gap-1 p-1.5 rounded-full mb-12">
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => setTab(t.id)}
+              className={`relative px-5 sm:px-7 py-3 rounded-full font-mono text-[11px] sm:text-xs font-bold tracking-[0.18em] uppercase transition-colors ${
+                tab === t.id ? "text-[#030407]" : "text-muted hover:text-ink"
+              }`}
+            >
+              {tab === t.id && (
+                <motion.span
+                  layoutId="skills-tab"
+                  className="absolute inset-0 rounded-full bg-accent shadow-[0_0_30px_var(--glow)]"
+                  transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                />
+              )}
+              <span className="relative">{t.label}</span>
+            </button>
+          ))}
         </div>
 
-        {/* Content */}
-        {tab === "skills" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            {skillCategories.map((group) => (
-              <div
-                key={group.category}
-                className="p-6 rounded-2xl bg-white dark:bg-black/30 border border-slate-200 dark:border-white/10 flex flex-col justify-between hover:border-[#00f5d4]/40 transition-all shadow-md"
+        <AnimatePresence mode="wait">
+          {tab === "skills" && (
+            <motion.div key="skills" {...panel}>
+              <motion.div
+                className="grid grid-cols-1 md:grid-cols-2 gap-5"
+                initial="hidden"
+                animate="show"
+                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08 } } }}
               >
-                <div>
-                  <div className="flex items-center gap-3 mb-5 border-b border-slate-200 dark:border-white/10 pb-3">
-                    <div className="p-2 rounded-xl bg-[#00f5d4]/10 border border-[#00f5d4]/30">
-                      {group.icon}
-                    </div>
-                    <h4 className="font-valorant-title text-base sm:text-lg text-slate-900 dark:text-[#ece8e1] tracking-wider">
-                      {group.category}
-                    </h4>
-                  </div>
-
-                  <div className="space-y-4">
-                    {group.skills.map((s) => (
-                      <div key={s.name} className="flex flex-col gap-1">
-                        <div className="flex justify-between items-center text-sm font-valorant-mono">
-                          <span className="font-bold text-slate-800 dark:text-[#ece8e1]">{s.name}</span>
-                          <span className="text-[#00f5d4] text-xs px-2 py-0.5 rounded-full bg-[#00f5d4]/10 border border-[#00f5d4]/20 font-bold">
-                            {s.level}
-                          </span>
+                {skillCategories.map((group, gi) => (
+                  <motion.div key={group.category} variants={item} style={{ transformPerspective: 1000 }}>
+                    <TiltCard max={6} className="h-full rounded-[2rem]">
+                      <div className="glass glow-border h-full rounded-[2rem] p-7 sm:p-9">
+                        <div className="flex items-center justify-between mb-8">
+                          <div className="flex items-center gap-3">
+                            <span
+                              className="w-11 h-11 rounded-2xl flex items-center justify-center border"
+                              style={{ borderColor: group.hue, boxShadow: `0 0 26px -8px ${group.hue}` }}
+                            >
+                              <group.icon className="w-5 h-5" style={{ color: group.hue }} />
+                            </span>
+                            <h3 className="font-display font-extrabold text-xl sm:text-2xl text-ink tracking-tight">
+                              {group.category}
+                            </h3>
+                          </div>
+                          <span className="font-mono text-[10px] text-muted">0{gi + 1}</span>
                         </div>
-                        <p className="text-xs text-slate-600 dark:text-[#8b9bb4] font-valorant-hud">
-                          {s.focus}
-                        </p>
+                        <ul className="divide-y divide-[var(--glass-border)]">
+                          {group.skills.map((s) => (
+                            <li key={s.name} className="py-4 first:pt-0 last:pb-0 group/skill">
+                              <div className="flex items-center justify-between gap-3">
+                                <span className="font-display font-bold text-ink group-hover/skill:translate-x-1 transition-transform duration-300">
+                                  {s.name}
+                                </span>
+                                <span className="shrink-0 font-mono text-[10px] tracking-[0.15em] uppercase px-2.5 py-1 rounded-full border border-glass-border text-accent-ink">
+                                  {s.level}
+                                </span>
+                              </div>
+                              <p className="mt-1.5 text-sm text-muted leading-relaxed">{s.focus}</p>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                    ))}
+                    </TiltCard>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+          )}
+
+          {tab === "langs" && (
+            <motion.div key="langs" {...panel} className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {[
+                {
+                  name: isEnglish ? "Spanish" : "Español",
+                  level: isEnglish ? "NATIVE SPEAKER" : "LENGUA MATERNA",
+                  pct: 100,
+                  code: "ES",
+                  desc: isEnglish
+                    ? "Native proficiency. Precise technical communication, report writing, and leadership across software projects and research seedbeds."
+                    : "Dominio nativo. Comunicación técnica clara, sustentación en semilleros, redacción de documentación y liderazgo de equipos.",
+                },
+                {
+                  name: isEnglish ? "English" : "Inglés",
+                  level: isEnglish ? "PROFICIENCY: B1 (CERTIFIED)" : "NIVEL: B1 (CERTIFICADO)",
+                  pct: 55,
+                  code: "EN",
+                  desc: isEnglish
+                    ? "Daily technical reading of official documentation, RFCs, GitHub issues, and developer communities. Continuous active speaking practice."
+                    : "Lectura técnica fluida de documentación oficial, RFCs, issues en GitHub y comunidades globales. En proceso activo de fortalecimiento comunicativo.",
+                },
+              ].map((l) => (
+                <TiltCard key={l.code} max={8} className="rounded-[2rem]">
+                  <div className="glass glow-border rounded-[2rem] p-8 sm:p-10 overflow-hidden">
+                    <div className="absolute right-6 top-2 font-display font-extrabold text-[8rem] leading-none text-outline opacity-15 select-none">
+                      {l.code}
+                    </div>
+                    <h3 className="relative font-display font-extrabold text-4xl text-ink">{l.name}</h3>
+                    <div className="relative mt-2 font-mono text-[11px] tracking-[0.2em] text-accent-ink">{l.level}</div>
+                    <div className="relative mt-8 h-1.5 rounded-full bg-faint overflow-hidden">
+                      <motion.div
+                        className="h-full rounded-full"
+                        style={{ background: "linear-gradient(90deg, var(--accent), var(--accent-2))", boxShadow: "0 0 16px var(--glow)" }}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${l.pct}%` }}
+                        transition={{ type: "spring", stiffness: 40, damping: 14, delay: 0.2 }}
+                      />
+                    </div>
+                    <p className="relative mt-8 text-muted leading-relaxed">{l.desc}</p>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+                </TiltCard>
+              ))}
+            </motion.div>
+          )}
 
-        {tab === "langs" && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="p-6 rounded-2xl bg-white dark:bg-black/30 border border-slate-200 dark:border-[#00f5d4]/30 shadow-md">
-              <div className="font-valorant-title text-2xl text-slate-900 dark:text-[#ece8e1] mb-1">
-                {isEnglish ? "SPANISH" : "ESPAÑOL"}
-              </div>
-              <div className="font-valorant-mono text-xs text-[#00f5d4] mb-3 font-bold">
-                {isEnglish ? "NATIVE SPEAKER" : "LENGUA MATERNA"}
-              </div>
-              <p className="font-valorant-hud text-sm text-slate-600 dark:text-[#8b9bb4]">
-                {isEnglish
-                  ? "Native proficiency. Precise technical communication, report writing, and leadership across software projects and research seedbeds."
-                  : "Dominio nativo. Comunicación técnica clara, sustentación en semilleros, redacción de documentación y liderazgo de equipos."}
-              </p>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-white dark:bg-black/30 border border-slate-200 dark:border-white/10 hover:border-[#00f5d4]/30 transition-all shadow-md">
-              <div className="font-valorant-title text-2xl text-slate-900 dark:text-[#ece8e1] mb-1">
-                {isEnglish ? "ENGLISH" : "INGLÉS"}
-              </div>
-              <div className="font-valorant-mono text-xs text-[#00f5d4] mb-3 font-bold">
-                {isEnglish ? "PROFICIENCY: B1 (CERTIFIED)" : "NIVEL: B1 (CERTIFICADO)"}
-              </div>
-              <p className="font-valorant-hud text-sm text-slate-600 dark:text-[#8b9bb4]">
-                {isEnglish
-                  ? "Daily technical reading of official documentation, RFCs, GitHub issues, and developer communities. Continuous active speaking practice."
-                  : "Lectura técnica fluida de documentación oficial, RFCs, issues en GitHub y comunidades globales. En proceso activo de fortalecimiento comunicativo."}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {tab === "sports" && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="rounded-2xl bg-white dark:bg-black/30 border border-slate-200 dark:border-[#00f5d4]/40 flex flex-col shadow-md overflow-hidden">
-              <div className="relative h-56 sm:h-64 bg-slate-100">
-                <img
-                  src="/img/boxeo.jpg"
-                  alt="Subcampeón nacional de boxeo"
-                  className="absolute inset-0 w-full h-full object-cover object-[center_18%]"
-                />
-              </div>
-              <div className="p-5 flex-1">
-                <div className="w-10 h-10 rounded-xl bg-[#00f5d4]/10 border border-[#00f5d4]/30 flex items-center justify-center mb-3">
-                  <Trophy className="w-5 h-5 text-[#00f5d4]" />
-                </div>
-                <h4 className="font-valorant-title text-xl text-slate-900 dark:text-[#ece8e1] mb-1">
-                  {isEnglish ? "NATIONAL BOXING RUNNER-UP" : "SUBCAMPEÓN NACIONAL DE BOXEO"}
-                </h4>
-                <div className="font-valorant-mono text-xs text-[#00f5d4] mb-3 font-bold">
-                  {isEnglish ? "HIGH PERFORMANCE ATHLETE (RETIRED)" : "DEPORTE DE ALTO RENDIMIENTO (RETIRADO)"}
-                </div>
-                <p className="font-valorant-hud text-sm text-slate-600 dark:text-[#8b9bb4] leading-relaxed">
-                  {isEnglish
-                    ? "Years of intense physical and mental conditioning in competitive boxing, cultivating absolute self-discipline, resilience under pressure, and strategic composure."
-                    : "Años de formación en boxeo competitivo. Aprendizaje profundo sobre perseverancia, enfoque en momentos de máxima presión, respeto y disciplina diaria."}
-                </p>
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-white dark:bg-black/30 border border-slate-200 dark:border-emerald-400/40 flex flex-col shadow-md overflow-hidden">
-              <div className="relative h-56 sm:h-64 bg-slate-100">
-                <img
-                  src="/img/relconsid.jpeg"
-                  alt="Evaluación REDCOLSI"
-                  className="absolute inset-0 w-full h-full object-cover object-center"
-                />
-              </div>
-              <div className="p-5 flex-1">
-                <div className="w-10 h-10 rounded-xl bg-emerald-400/10 border border-emerald-400/30 flex items-center justify-center mb-3">
-                  <Award className="w-5 h-5 text-emerald-400" />
-                </div>
-                <h4 className="font-valorant-title text-xl text-slate-900 dark:text-[#ece8e1] mb-1">
-                  {isEnglish ? "REDCOLSI RESEARCH EVALUATION" : "EVALUADO EN REDCOLSI"}
-                </h4>
-                <div className="font-valorant-mono text-xs text-emerald-500 mb-3 font-bold">
-                  {isEnglish ? "COLOMBIAN SEEDBED NETWORK" : "RED COLOMBIANA DE SEMILLEROS DE INVESTIGACIÓN"}
-                </div>
-                <p className="font-valorant-hud text-sm text-slate-600 dark:text-[#8b9bb4] leading-relaxed">
-                  {isEnglish
-                    ? "Evaluated and endorsed by REDCOLSI for scientific rigour and practical technical execution within university software research."
-                    : "Participación y evaluación oficial en REDCOLSI sustentando avances científicos y desarrollo aplicado de software en el semillero institucional UCC."}
-                </p>
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-white dark:bg-black/30 border border-slate-200 dark:border-teal-300/40 flex flex-col shadow-md overflow-hidden">
-              <div className="relative h-56 sm:h-64 bg-slate-100">
-                <img
-                  src="/img/hackathon.jpg"
-                  alt="Hackathon quinto puesto"
-                  className="absolute inset-0 w-full h-full object-cover object-[center_35%]"
-                />
-              </div>
-              <div className="p-5 flex-1">
-                <div className="w-10 h-10 rounded-xl bg-teal-300/10 border border-teal-300/30 flex items-center justify-center mb-3">
-                  <Trophy className="w-5 h-5 text-teal-300" />
-                </div>
-                <h4 className="font-valorant-title text-xl text-slate-900 dark:text-[#ece8e1] mb-1">
-                  {isEnglish ? "5TH PLACE IN HACKATHON" : "5° PUESTO EN HACKATHON"}
-                </h4>
-                <div className="font-valorant-mono text-xs text-teal-500 mb-3 font-bold">
-                  {isEnglish ? "3 TOTAL COMPETITIVE HACKATHONS" : "3 PARTICIPACIONES ENTRE 2024 Y 2026"}
-                </div>
-                <p className="font-valorant-hud text-sm text-slate-600 dark:text-[#8b9bb4] leading-relaxed">
-                  {isEnglish
-                    ? "Secured 5th position developing a functional prototype in less than 48 hours. Proven endurance and teamwork solving complex architectural challenges."
-                    : "5° lugar diseñando y codificando un prototipo tecnológico funcional en 48 horas continuas. Experiencia comprobada trabajando en equipo contrarreloj."}
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
+          {tab === "sports" && (
+            <motion.div
+              key="sports"
+              {...panel}
+              className="grid grid-cols-1 md:grid-cols-3 gap-5"
+            >
+              {achievements.map((a, i) => (
+                <TiltCard key={a.title} max={9} className={`rounded-[2rem] ${i === 1 ? "md:mt-12" : ""}`}>
+                  <div className="glass glow-border h-full rounded-[2rem] p-3 flex flex-col overflow-hidden">
+                    <div className="relative h-64 sm:h-72 rounded-[1.5rem] overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={a.img}
+                        alt={a.alt}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-110"
+                        style={{ objectPosition: a.pos }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-transparent" />
+                      <span
+                        className="absolute bottom-4 left-4 w-11 h-11 rounded-2xl glass-strong flex items-center justify-center"
+                        style={{ transform: "translateZ(50px)" }}
+                      >
+                        <a.icon className="w-5 h-5" style={{ color: a.hue }} />
+                      </span>
+                    </div>
+                    <div className="p-5 sm:p-6 flex-1">
+                      <div className="font-mono text-[10px] tracking-[0.2em] mb-2" style={{ color: a.hue }}>
+                        {a.sub}
+                      </div>
+                      <h3 className="font-display font-extrabold text-2xl text-ink leading-tight mb-3">{a.title}</h3>
+                      <p className="text-sm text-muted leading-relaxed">{a.desc}</p>
+                    </div>
+                  </div>
+                </TiltCard>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

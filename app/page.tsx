@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
@@ -11,7 +12,10 @@ import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import PageEffects from "@/components/PageEffects";
+import Backdrop from "@/components/fx/Backdrop";
+import Cursor from "@/components/fx/Cursor";
+import SmoothScroll from "@/components/fx/SmoothScroll";
+import ScrollSkew from "@/components/fx/ScrollSkew";
 import { PortfolioProvider } from "@/context/PortfolioContext";
 
 export default function Home() {
@@ -19,15 +23,17 @@ export default function Home() {
 
   return (
     <PortfolioProvider>
-      <div className="min-h-screen scroll-smooth selection:bg-[#00f5d4] selection:text-[#090e14] relative transition-colors duration-300">
-        <div className="noise-overlay" />
-        <PageEffects />
-        {loading && <Preloader onComplete={() => setLoading(false)} />}
+      <SmoothScroll />
+      <Backdrop />
+      <Cursor />
+      <AnimatePresence>{loading && <Preloader onComplete={() => setLoading(false)} />}</AnimatePresence>
 
-        <Navbar />
-        
-        <main className="flex-1 flex flex-col relative w-full pt-6 sm:pt-8 z-10">
-          <Hero />
+      <Navbar />
+
+      <div className="relative w-full overflow-x-clip">
+      <ScrollSkew className="relative z-10">
+        <main className="relative w-full flex flex-col">
+          <Hero ready={!loading} />
           <About />
           <Projects />
           <Testimonials />
@@ -35,8 +41,9 @@ export default function Home() {
           <Skills />
           <Contact />
         </main>
-        
-        <Footer />
+      </ScrollSkew>
+
+      <Footer />
       </div>
     </PortfolioProvider>
   );

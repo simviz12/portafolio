@@ -1,33 +1,30 @@
-import type { Metadata } from "next";
-import { Anton, Geist, Geist_Mono, Rajdhani, Share_Tech_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Syne, Inter_Tight, JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const syne = Syne({
+  weight: ["600", "700", "800"],
   subsets: ["latin"],
+  variable: "--font-display",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const interTight = Inter_Tight({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
+  variable: "--font-body",
 });
 
-const anton = Anton({
+const jetbrains = JetBrains_Mono({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
+
+const instrument = Instrument_Serif({
   weight: "400",
+  style: ["normal", "italic"],
   subsets: ["latin"],
-  variable: "--font-anton",
-});
-
-const rajdhani = Rajdhani({
-  weight: ["500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-rajdhani",
-});
-
-const shareTech = Share_Tech_Mono({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-share",
+  variable: "--font-serif",
 });
 
 export const metadata: Metadata = {
@@ -39,15 +36,22 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4f5f7" },
+    { media: "(prefers-color-scheme: dark)", color: "#030407" },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className="scroll-smooth">
+    <html lang="es" className="theme-light">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} ${rajdhani.variable} ${shareTech.variable} antialiased selection:bg-[#ff4655] selection:text-white`}
+        className={`${syne.variable} ${interTight.variable} ${jetbrains.variable} ${instrument.variable} antialiased`}
       >
         {children}
       </body>
