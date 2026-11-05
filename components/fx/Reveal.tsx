@@ -6,11 +6,11 @@ import { motion, type Variants } from "framer-motion";
 export const springIn = { type: "spring", stiffness: 90, damping: 18, mass: 0.9 } as const;
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 60, filter: "blur(12px)" },
-  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: springIn },
+  hidden: { opacity: 0, y: 60 },
+  show: { opacity: 1, y: 0, transition: springIn },
 };
 
-/** Fade + slide + un-blur on enter. */
+/** Fade + slide on enter (transform/opacity only, so it stays on the compositor). */
 export function Reveal({
   children,
   className = "",

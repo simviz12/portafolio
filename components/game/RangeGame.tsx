@@ -197,6 +197,15 @@ export default function RangeGame() {
     shared.current.paused = !started || modal !== null || summary !== null;
   }, [started, modal, summary]);
 
+  /* Freeze the decorative background scene while a round is played: two live WebGL loops halve the frame budget. */
+  useEffect(() => {
+    const busy = visible && started;
+    window.dispatchEvent(new CustomEvent("bg3d:pause", { detail: busy }));
+    return () => {
+      if (busy) window.dispatchEvent(new CustomEvent("bg3d:pause", { detail: false }));
+    };
+  }, [visible, started]);
+
   /* ---------- actions ---------- */
   const startReload = useCallback(() => {
     if (reloadingRef.current || ammoRef.current === MAG_SIZE) return;

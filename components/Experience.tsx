@@ -118,8 +118,8 @@ export default function Experience() {
 
                   <motion.div
                     className={`col-start-2 ${isLeft ? "md:col-start-1" : "md:col-start-2"}`}
-                    initial={{ opacity: 0, x: isLeft ? -80 : 80, rotateY: isLeft ? 20 : -20, filter: "blur(10px)" }}
-                    whileInView={{ opacity: 1, x: 0, rotateY: 0, filter: "blur(0px)" }}
+                    initial={{ opacity: 0, x: isLeft ? -80 : 80, rotateY: isLeft ? 20 : -20 }}
+                    whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
                     viewport={{ once: true, margin: "-15% 0px" }}
                     transition={{ type: "spring", stiffness: 70, damping: 16 }}
                     style={{ transformPerspective: 1200 }}

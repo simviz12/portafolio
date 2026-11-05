@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type ComponentRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Float, MeshDistortMaterial } from "@react-three/drei";
+import { Float, MeshDistortMaterial, PerformanceMonitor } from "@react-three/drei";
 import * as THREE from "three";
 
 type Palette = {
@@ -200,6 +200,9 @@ function Sculpture({ palette, compact }: { palette: Palette; compact: boolean })
     const t = state.clock.elapsedTime;
     input.velocity *= 0.92;
     if (group.current) {
+      // Once the hero is gone the sculpture sits far above the frustum: skip drawing it entirely.
+      group.current.visible = input.screens < 2.2;
+      if (!group.current.visible) return;
       const baseX = compact ? viewport.width * 0.28 : viewport.width * 0.22;
       group.current.position.x = THREE.MathUtils.lerp(group.current.position.x, baseX + input.mx * 0.4, 0.05);
       group.current.position.y = THREE.MathUtils.lerp(
@@ -229,8 +232,8 @@ function Sculpture({ palette, compact }: { palette: Palette; compact: boolean })
   return (
     <group ref={group} scale={scale}>
       <Float speed={1.6} rotationIntensity={0.6} floatIntensity={1.2}>
-        <mesh castShadow>
-          <icosahedronGeometry args={[1.55, 64]} />
+        <mesh>
+          <icosahedronGeometry args={[1.55, compact ? 20 : 32]} />
           <MeshDistortMaterial
             ref={matRef}
             color={palette.core}
@@ -255,7 +258,7 @@ function Sculpture({ palette, compact }: { palette: Palette; compact: boolean })
 
       <Float speed={2.4} rotationIntensity={1.4} floatIntensity={2}>
         <mesh ref={knot} position={[-2.6, 1.6, -1.2]} scale={0.32}>
-          <torusKnotGeometry args={[1, 0.32, 160, 24]} />
+          <torusKnotGeometry args={[1, 0.32, 96, 16]} />
           <meshStandardMaterial color={palette.b} emissive={palette.b} emissiveIntensity={palette.additive ? 0.6 : 0.15} roughness={0.25} metalness={0.6} />
         </mesh>
       </Float>
@@ -269,15 +272,11 @@ function Sculpture({ palette, compact }: { palette: Palette; compact: boolean })
 
       <Float speed={2} rotationIntensity={1} floatIntensity={1.8}>
         <mesh position={[-1.9, -1.9, 1]} rotation={[0.6, 0.2, 0]} scale={0.5}>
-          <torusGeometry args={[1, 0.06, 16, 100]} />
+          <torusGeometry args={[1, 0.06, 8, 64]} />
           <meshStandardMaterial color={palette.a} emissive={palette.a} emissiveIntensity={palette.additive ? 1.2 : 0.3} />
         </mesh>
       </Float>
 
-      <mesh position={[0, -2.9, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <circleGeometry args={[3.2, 64]} />
-        <shadowMaterial transparent opacity={palette.additive ? 0.5 : 0.12} />
-      </mesh>
     </group>
   );
 }
@@ -285,12 +284,13 @@ function Sculpture({ palette, compact }: { palette: Palette; compact: boolean })
 /* ---------- Lighting that follows the pointer ---------- */
 function Rig({ palette }: { palette: Palette }) {
   const keyLight = useRef<THREE.PointLight>(null);
+  const keyTarget = useMemo(() => new THREE.Vector3(), []);
   const rimLight = useRef<THREE.PointLight>(null);
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     if (keyLight.current) {
-      keyLight.current.position.lerp(new THREE.Vector3(input.mx * 6, input.my * 4, 4), 0.08);
+      keyLight.current.position.lerp(keyTarget.set(input.mx * 6, input.my * 4, 4), 0.08);
     }
     if (rimLight.current) {
       rimLight.current.position.set(Math.cos(t * 0.4) * 6, Math.sin(t * 0.3) * 3, -3);
@@ -304,13 +304,7 @@ function Rig({ palette }: { palette: Palette }) {
   return (
     <>
       <ambientLight intensity={palette.additive ? 0.25 : 0.9} />
-      <directionalLight
-        position={[4, 6, 5]}
-        intensity={palette.additive ? 1.2 : 1.6}
-        castShadow
-        shadow-mapSize={[1024, 1024]}
-        shadow-radius={8}
-      />
+      <directionalLight position={[4, 6, 5]} intensity={palette.additive ? 1.2 : 1.6} />
       <pointLight ref={keyLight} color={palette.a} intensity={palette.additive ? 40 : 18} distance={20} />
       <pointLight ref={rimLight} color={palette.b} intensity={palette.additive ? 50 : 20} distance={20} />
       <pointLight position={[0, -4, 3]} color={palette.c} intensity={palette.additive ? 18 : 8} distance={14} />
@@ -321,8 +315,11 @@ function Rig({ palette }: { palette: Palette }) {
 export default function Scene3D({ theme }: { theme: "light" | "dark" }) {
   useGlobalInput();
   const palette = PALETTES[theme];
-  const [compact, setCompact] = useState(false);
-  const [reduced, setReduced] = useState(false);
+  // Client-only component (loaded with ssr: false), so media queries can seed the initial state.
+  const [compact, setCompact] = useState(() => window.matchMedia("(max-width: 1023px)").matches);
+  const [reduced, setReduced] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const [paused, setPaused] = useState(false);
+  const [dpr, setDpr] = useState(1.25);
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 1023px)");
@@ -331,7 +328,6 @@ export default function Scene3D({ theme }: { theme: "light" | "dark" }) {
       setCompact(mq.matches);
       setReduced(rm.matches);
     };
-    sync();
     mq.addEventListener("change", sync);
     rm.addEventListener("change", sync);
     return () => {
@@ -340,19 +336,48 @@ export default function Scene3D({ theme }: { theme: "light" | "dark" }) {
     };
   }, []);
 
+  // Stop rendering while the tab is hidden or while the mini-game owns the GPU.
+  useEffect(() => {
+    let hidden = document.hidden;
+    let game = false;
+    const sync = () => setPaused(hidden || game);
+    const onVis = () => {
+      hidden = document.hidden;
+      sync();
+    };
+    const onGame = (e: Event) => {
+      game = Boolean((e as CustomEvent<boolean>).detail);
+      sync();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    window.addEventListener("bg3d:pause", onGame);
+    return () => {
+      document.removeEventListener("visibilitychange", onVis);
+      window.removeEventListener("bg3d:pause", onGame);
+    };
+  }, []);
+
+  const maxDpr = compact ? 1.25 : 1.5;
+
   return (
     <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden>
       <Canvas
-        shadows="percentage"
-        dpr={[1, compact ? 1.5 : 1.75]}
+        dpr={Math.min(dpr, maxDpr)}
         camera={{ position: [0, 0, 8], fov: 45 }}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-        frameloop={reduced ? "demand" : "always"}
+        gl={{ antialias: !compact, alpha: true, powerPreference: "high-performance", stencil: false }}
+        frameloop={paused ? "never" : reduced ? "demand" : "always"}
       >
+        {/* Adaptive resolution: drop pixel ratio on slow GPUs, raise it on fast ones. */}
+        <PerformanceMonitor
+          onIncline={() => setDpr(maxDpr)}
+          onDecline={() => setDpr(1)}
+          flipflops={3}
+          onFallback={() => setDpr(1)}
+        />
         <fog attach="fog" args={[theme === "dark" ? "#030407" : "#f4f5f7", 14, 60]} />
         <Rig palette={palette} />
-        <Starfield palette={palette} count={compact ? 1400 : 3200} />
-        <Wave palette={palette} density={compact ? 90 : 160} />
+        <Starfield palette={palette} count={compact ? 1000 : 2400} />
+        <Wave palette={palette} density={compact ? 80 : 130} />
         <Sculpture palette={palette} compact={compact} />
       </Canvas>
     </div>

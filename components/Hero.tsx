@@ -61,8 +61,8 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
   const outlineX = useTransform(p, [0, 1], ["0%", "18%"]);
 
   const fade = (delay: number): Variants => ({
-    hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
-    show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 90, damping: 18, delay } },
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 90, damping: 18, delay } },
   });
 
   return (
@@ -184,7 +184,11 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
                 {!photoError ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src="/img/perfil.jpg"
+                    src="/img/perfil.webp"
+                    width={720}
+                    height={1280}
+                    fetchPriority="high"
+                    decoding="async"
                     alt="Carlos Julián Benavides"
                     className="absolute inset-0 w-full h-full object-cover scale-[1.35] transition-transform duration-700 group-hover:scale-[1.42]"
                     style={{ objectPosition: "center 45%" }}

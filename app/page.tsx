@@ -15,7 +15,6 @@ import Footer from "@/components/Footer";
 import Backdrop from "@/components/fx/Backdrop";
 import Cursor from "@/components/fx/Cursor";
 import SmoothScroll from "@/components/fx/SmoothScroll";
-import ScrollSkew from "@/components/fx/ScrollSkew";
 import { PortfolioProvider } from "@/context/PortfolioContext";
 
 export default function Home() {
@@ -31,8 +30,7 @@ export default function Home() {
       <Navbar />
 
       <div className="relative w-full overflow-x-clip">
-      <ScrollSkew className="relative z-10">
-        <main className="relative w-full flex flex-col">
+        <main className="relative z-10 w-full flex flex-col">
           <Hero ready={!loading} />
           <About />
           <Projects />
@@ -41,9 +39,8 @@ export default function Home() {
           <Skills />
           <Contact />
         </main>
-      </ScrollSkew>
 
-      <Footer />
+        <Footer />
       </div>
     </PortfolioProvider>
   );

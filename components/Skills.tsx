@@ -10,9 +10,9 @@ import TiltCard from "@/components/fx/TiltCard";
 type Tab = "skills" | "langs" | "sports";
 
 const panel = {
-  initial: { opacity: 0, y: 40, filter: "blur(10px)" },
-  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-  exit: { opacity: 0, y: -30, filter: "blur(10px)" },
+  initial: { opacity: 0, y: 40 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -30 },
   transition: { type: "spring", stiffness: 120, damping: 20 },
 } as const;
 
@@ -74,7 +74,7 @@ export default function Skills() {
 
   const achievements = [
     {
-      img: "/img/boxeo.jpg",
+      img: "/img/boxeo.webp",
       pos: "center 18%",
       alt: "Subcampeón nacional de boxeo",
       icon: Trophy,
@@ -86,7 +86,7 @@ export default function Skills() {
         : "Años de formación en boxeo competitivo. Aprendizaje profundo sobre perseverancia, enfoque en momentos de máxima presión, respeto y disciplina diaria.",
     },
     {
-      img: "/img/relconsid.jpeg",
+      img: "/img/relconsid.webp",
       pos: "center",
       alt: "Evaluación REDCOLSI",
       icon: Award,
@@ -98,7 +98,7 @@ export default function Skills() {
         : "Participación y evaluación oficial en REDCOLSI sustentando avances científicos y desarrollo aplicado de software en el semillero institucional UCC.",
     },
     {
-      img: "/img/hackathon.jpg",
+      img: "/img/hackathon.webp",
       pos: "center 35%",
       alt: "Hackathon quinto puesto",
       icon: Trophy,
@@ -263,6 +263,8 @@ export default function Skills() {
                       <img
                         src={a.img}
                         alt={a.alt}
+                        loading="lazy"
+                        decoding="async"
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-110"
                         style={{ objectPosition: a.pos }}
                       />

@@ -148,16 +148,10 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: gradient-pan 8s ease-in-out infinite alternate;
 }
 
 .theme-dark .text-glow {
   text-shadow: 0 0 24px var(--glow), 0 0 64px var(--glow);
-}
-
-@keyframes gradient-pan {
-  from { background-position: 0% 50%; }
-  to { background-position: 100% 50%; }
 }
 
 /* ================================================================= */
@@ -167,16 +161,16 @@ body {
   position: relative;
   background: linear-gradient(145deg, var(--glass-hi) -60%, var(--glass) 40%);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(22px) saturate(160%);
-  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
   box-shadow: var(--shadow-card), inset 0 1px 0 0 var(--glass-hi);
 }
 
 .glass-strong {
   background: var(--glass-strong);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
 }
 
 /* Animated conic border that appears on hover */
@@ -197,13 +191,14 @@ body {
   mask-composite: exclude;
   opacity: 0;
   transition: opacity 0.5s ease;
-  animation: spin-angle 4s linear infinite;
+  animation: spin-angle 4s linear infinite paused;
   pointer-events: none;
   z-index: 2;
 }
 
 .glow-border:hover::before {
   opacity: 1;
+  animation-play-state: running;
 }
 
 .theme-dark .glow-border:hover {
@@ -247,8 +242,8 @@ body {
 .btn-ghost {
   border: 1px solid var(--glass-border);
   background: var(--glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: var(--fg);
 }
 
@@ -265,8 +260,8 @@ body {
   inset: -20%;
   z-index: 0;
   pointer-events: none;
-  filter: blur(80px);
   opacity: 1;
+  contain: strict;
 }
 
 .aurora span {
@@ -278,19 +273,19 @@ body {
 
 .aurora .a1 {
   width: 55vw; height: 55vw; left: 5%; top: 0%;
-  background: radial-gradient(circle, var(--aurora-a), transparent 65%);
+  background: radial-gradient(circle closest-side, var(--aurora-a), transparent);
   animation: aurora-1 26s ease-in-out infinite alternate;
 }
 
 .aurora .a2 {
   width: 50vw; height: 50vw; right: 0%; top: 25%;
-  background: radial-gradient(circle, var(--aurora-b), transparent 65%);
+  background: radial-gradient(circle closest-side, var(--aurora-b), transparent);
   animation: aurora-2 32s ease-in-out infinite alternate;
 }
 
 .aurora .a3 {
   width: 45vw; height: 45vw; left: 30%; bottom: 0%;
-  background: radial-gradient(circle, var(--aurora-c), transparent 65%);
+  background: radial-gradient(circle closest-side, var(--aurora-c), transparent);
   animation: aurora-3 38s ease-in-out infinite alternate;
 }
 
@@ -311,9 +306,9 @@ body {
   position: fixed;
   inset: 0;
   z-index: 90;
-  opacity: var(--grain-opacity);
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: calc(var(--grain-opacity) * 0.6);
+  background-size: 200px 200px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .vignette {
@@ -360,7 +355,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .aurora span,
   .marquee-track,
-  .text-gradient,
   .btn-neon::after,
   .glow-border::before {
     animation: none !important;

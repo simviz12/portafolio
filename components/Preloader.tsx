@@ -33,8 +33,8 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       onAnimationComplete={() => done && onComplete()}
     >
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vmin] h-[70vmin] rounded-full bg-[#00f5d4]/15 blur-[120px]" />
-        <div className="absolute right-[10%] top-[15%] w-[40vmin] h-[40vmin] rounded-full bg-[#7c4dff]/15 blur-[120px]" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vmin] h-[70vmin] rounded-full bg-[radial-gradient(circle_closest-side,rgba(0,245,212,0.15),transparent)]" />
+        <div className="absolute right-[10%] top-[15%] w-[40vmin] h-[40vmin] rounded-full bg-[radial-gradient(circle_closest-side,rgba(124,77,255,0.15),transparent)]" />
       </div>
 
       <div className="relative flex items-center justify-between font-mono text-[11px] tracking-[0.3em] uppercase text-[#8a93a6]">
