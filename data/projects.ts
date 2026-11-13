@@ -1,16 +1,36 @@
+type Localized = { en: string; es: string };
+
+export interface VideoChapter {
+  /** Start time in seconds. */
+  t: number;
+  label: Localized;
+}
+
+export interface ProjectVideo {
+  src: string;
+  poster: string;
+  /** Length in seconds. */
+  duration: number;
+  chapters: VideoChapter[];
+}
+
 export interface Project {
+  slug: string;
   title: string;
-  badge: { en: string; es: string };
-  subtitle: { en: string; es: string };
-  description: { en: string; es: string };
+  badge: Localized;
+  subtitle: Localized;
+  description: Localized;
   impactMetrics: { en: string[]; es: string[] };
   tags: string[];
   githubUrl: string;
   demoUrl: string;
+  /** Recorded walkthrough, played in the project viewer. */
+  video?: ProjectVideo;
 }
 
 export const projects: Project[] = [
   {
+    slug: "guardian-mobile",
     title: "The Guardian of Mobile",
     badge: {
       en: "MOBILE • INTEGRATED SECURITY",
@@ -39,38 +59,124 @@ export const projects: Project[] = [
     tags: ["Flutter", "Dart", "Firebase", "NestJS", "PostgreSQL"],
     githubUrl: "https://github.com/simviz12/fronted-guardianmobile",
     demoUrl: "https://github.com/simviz12/fronted-guardianmobile",
+    video: {
+      src: "/videos/guardian-mobile.mp4",
+      poster: "/videos/posters/guardian-mobile.webp",
+      duration: 60,
+      chapters: [
+        { t: 0, label: { en: "Intro", es: "Introducción" } },
+        { t: 4, label: { en: "Secure access", es: "Acceso seguro" } },
+        { t: 10, label: { en: "Main dashboard", es: "Panel principal" } },
+        { t: 18, label: { en: "Remote actions", es: "Acciones remotas" } },
+        { t: 25, label: { en: "Tracking map", es: "Mapa de rastreo" } },
+        { t: 32, label: { en: "Theft mode", es: "Modo Robo" } },
+        { t: 39, label: { en: "Remote wipe", es: "Borrado remoto" } },
+        { t: 46, label: { en: "Command history", es: "Historial de órdenes" } },
+        { t: 51, label: { en: "Settings and diagnostics", es: "Ajustes y diagnóstico" } },
+        { t: 57, label: { en: "Wrap-up", es: "Cierre" } },
+      ],
+    },
   },
   {
+    slug: "guardian-kaliche",
     title: "The Guardian of Kaliche",
     badge: {
       en: "CYBERSECURITY • DESKTOP",
       es: "CIBERSEGURIDAD • DESKTOP",
     },
     subtitle: {
-      en: "Kali Linux environment integrated natively on Windows",
-      es: "Entorno Kali Linux integrado nativamente en Windows",
+      en: "Ethical-hacking copilot: a real Kali terminal plus an AI assistant",
+      es: "Copiloto de hacking ético: terminal real de Kali + asistente de IA",
     },
     description: {
-      en: "Desktop app that orchestrates Kali Linux on Windows via WSL 2, with a modern terminal and Python audit automations.",
-      es: "App de escritorio que orquesta Kali Linux en Windows con WSL 2, terminal moderna y automatizaciones de auditoría en Python.",
+      en: "Desktop app that runs a real Kali Linux shell on Windows via WSL 2. An AI copilot proposes commands, a policy engine decides what may run, and every command is logged for audit.",
+      es: "App de escritorio que abre una shell real de Kali Linux en Windows con WSL 2. Un copiloto de IA propone comandos, un motor de políticas decide qué se ejecuta y cada comando queda auditado.",
     },
     impactMetrics: {
       en: [
-        "Native WSL 2 integration",
-        "Fluid UI with Electron and React",
-        "Automated security scanning with Python",
+        "Real Kali shell through WSL 2 with node-pty and xterm.js",
+        "AI copilot (Gemini) with the human always in the loop",
+        "Policy engine: blocklist, authorized scope and risk level, tested with pytest",
       ],
       es: [
-        "Integración nativa con WSL 2",
-        "Interfaz fluida con Electron y React",
-        "Escaneo automatizado de seguridad con Python",
+        "Shell real de Kali por WSL 2 con node-pty y xterm.js",
+        "Copiloto de IA (Gemini) con el humano siempre en el circuito",
+        "Motor de políticas: lista negra, alcance autorizado y nivel de riesgo, probado con pytest",
       ],
     },
-    tags: ["Electron", "React", "WSL 2", "Python", "Tailwind CSS"],
+    tags: ["Electron", "React", "WSL 2", "Python", "FastAPI", "Gemini", "SQLite"],
     githubUrl: "https://github.com/simviz12/the-guardian-of-kali_frontend",
     demoUrl: "https://github.com/simviz12/the-guardian-of-kali_frontend",
+    video: {
+      src: "/videos/guardian-kaliche.mp4",
+      poster: "/videos/posters/guardian-kaliche.webp",
+      duration: 90,
+      chapters: [
+        { t: 0, label: { en: "Intro", es: "Introducción" } },
+        { t: 4, label: { en: "Loading screen", es: "Pantalla de carga" } },
+        { t: 11, label: { en: "Login and sign-up", es: "Login y registro" } },
+        { t: 18, label: { en: "Gemini API key", es: "API Key de Gemini" } },
+        { t: 23, label: { en: "New session", es: "Nueva sesión" } },
+        { t: 31, label: { en: "Kali terminal", es: "Terminal de Kali" } },
+        { t: 39, label: { en: "AI copilot", es: "Copiloto de IA" } },
+        { t: 49, label: { en: "Audit history", es: "Historial de auditoría" } },
+        { t: 56, label: { en: "Settings", es: "Ajustes" } },
+        { t: 62, label: { en: "Operating guide", es: "Guía operativa" } },
+        { t: 68, label: { en: "Architecture", es: "Arquitectura" } },
+        { t: 78, label: { en: "Policy engine", es: "Motor de políticas" } },
+        { t: 86, label: { en: "Wrap-up", es: "Cierre" } },
+      ],
+    },
   },
   {
+    slug: "pulso",
+    title: "Pulso",
+    badge: {
+      en: "WEARABLE • WELLNESS",
+      es: "WEARABLE • BIENESTAR",
+    },
+    subtitle: {
+      en: "Detects tension, guides your breathing and brings you back to calm",
+      es: "Detecta la tensión, guía tu respiración y te devuelve a la calma",
+    },
+    description: {
+      en: "Smartwatch app that compares your pulse and HRV against your own baseline, warns you gently when tension rises and guides breathing through vibration. A companion Android app adds history, a tension map and an AI assistant.",
+      es: "App de reloj que compara tu pulso y HRV con tu propia línea base, avisa con suavidad cuando sube la tensión y guía la respiración con vibración. La app Android suma historial, mapa de tensión y un asistente de IA.",
+    },
+    impactMetrics: {
+      en: [
+        "Tension detection against a 14-day personal baseline",
+        "Breathing guided by vibration (4-6, box 4-4-4-4, 4-7-8), no need to look at the screen",
+        "Watch + Android app + cloud API with a voice and text AI assistant",
+      ],
+      es: [
+        "Detección de tensión contra una línea base personal de 14 días",
+        "Respiración guiada por vibración (4-6, caja 4-4-4-4, 4-7-8) sin mirar la pantalla",
+        "Reloj + app Android + API en la nube con asistente de IA por voz y texto",
+      ],
+    },
+    tags: ["Garmin · Monkey C", "Kotlin", "Jetpack Compose", "NestJS", "PostgreSQL", "Haptics"],
+    githubUrl: "https://github.com/simviz12/smartwatch-frontend",
+    demoUrl: "https://github.com/simviz12/smartwatch-frontend",
+    video: {
+      src: "/videos/pulso.mp4",
+      poster: "/videos/posters/pulso.webp",
+      duration: 58,
+      chapters: [
+        { t: 0, label: { en: "Intro", es: "Introducción" } },
+        { t: 4, label: { en: "Watch · Everything on your wrist", es: "Reloj · Todo en la muñeca" } },
+        { t: 11, label: { en: "Watch · Tension detected", es: "Reloj · Tensión detectada" } },
+        { t: 17, label: { en: "Watch · Guided calm", es: "Reloj · Calma guiada" } },
+        { t: 24, label: { en: "Phone · Your day", es: "Celular · Tu día" } },
+        { t: 32, label: { en: "Phone · History and map", es: "Celular · Historial y mapa" } },
+        { t: 39, label: { en: "Phone · AI assistant", es: "Celular · Asistente IA" } },
+        { t: 46, label: { en: "How it works", es: "Cómo funciona" } },
+        { t: 54, label: { en: "Wrap-up", es: "Cierre" } },
+      ],
+    },
+  },
+  {
+    slug: "viberoute",
     title: "VibeRoute",
     badge: {
       en: "LOGISTICS • AI OPTIMIZATION",
@@ -101,6 +207,7 @@ export const projects: Project[] = [
     demoUrl: "https://github.com/simviz12/viberoute-frontend",
   },
   {
+    slug: "juanchopizza",
     title: "JuanchoPizza POS & ERP",
     badge: {
       en: "POS • CLEAN ARCHITECTURE",
@@ -131,36 +238,7 @@ export const projects: Project[] = [
     demoUrl: "https://github.com/simviz12/juserr",
   },
   {
-    title: "Pulso · Wear OS Haptics",
-    badge: {
-      en: "WEAR OS • WELLNESS",
-      es: "WEAR OS • BIENESTAR",
-    },
-    subtitle: {
-      en: "Gentle haptic engine for stress alerts and guided breathing",
-      es: "Motor háptico gentil para alertas de estrés y respiración guiada",
-    },
-    description: {
-      en: "Wear OS haptic specification and implementation: subtle stress pulses, inhale/exhale waveforms with amplitude control, configurable intensity and battery-safe fallbacks.",
-      es: "Especificación e implementación háptica en Wear OS: pulsos de estrés sutiles, ondas de inhalación/exhalación, intensidad configurable y fallbacks de batería.",
-    },
-    impactMetrics: {
-      en: [
-        "Amplitude-controlled waveforms for inhale, hold and exhale",
-        "LOW / MEDIUM / HIGH intensity plus extreme battery saver",
-        "Screen-off breathing sessions driven only by vibration",
-      ],
-      es: [
-        "Ondas con control de amplitud para inhalar, retener y exhalar",
-        "Intensidad LOW / MEDIUM / HIGH y modo ahorro extremo",
-        "Sesiones de respiración con pantalla apagada",
-      ],
-    },
-    tags: ["Wear OS", "Kotlin", "Android", "Haptics"],
-    githubUrl: "https://github.com/simviz12/smartwatch-frontend",
-    demoUrl: "https://github.com/simviz12/smartwatch-frontend",
-  },
-  {
+    slug: "chef-edwin",
     title: "Chef Edwin",
     badge: {
       en: "AI • MULTIMODAL EDUCATION",
@@ -191,6 +269,7 @@ export const projects: Project[] = [
     demoUrl: "https://github.com/simviz12/ChefEdwin",
   },
   {
+    slug: "gym-tienda",
     title: "Gym Tienda",
     badge: {
       en: "E-COMMERCE • WEB",
@@ -221,3 +300,8 @@ export const projects: Project[] = [
     demoUrl: "https://github.com/simviz12/gym_tienda",
   },
 ];
+
+export function formatDuration(seconds: number) {
+  const s = Math.max(0, Math.floor(seconds));
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+}

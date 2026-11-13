@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portafolio · Carlos Julián Benavides Burbano
 
-## Getting Started
+Portafolio personal hecho con Next.js (App Router), Tailwind CSS 4, Framer Motion y Three.js.
 
-First, run the development server:
+## Desarrollo
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # build de producción
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Proyectos y videos
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Los proyectos viven en `data/projects.ts`. Un proyecto con el campo `video` aparece en el bloque
+"Recorridos en video" y se abre en el reproductor (`components/ProjectViewer.tsx`).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Para agregar un video:
 
-## Learn More
+1. Copia el `.mp4` a `public/videos/` y una portada 16:9 a `public/videos/posters/`.
+2. Añade `video: { src, poster, duration, chapters }` al proyecto. Cada capítulo es
+   `{ t: segundoDeInicio, label: { en, es } }`.
 
-To learn more about Next.js, take a look at the following resources:
+## CV
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`public/cv.html` es la fuente del CV de una hoja y `public/cv.pdf` es lo que descarga el sitio.
+Después de editar el HTML, regenera el PDF con Chrome:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+chrome --headless=new --no-pdf-header-footer --print-to-pdf=public/cv.pdf public/cv.html
+```
 
-## Deploy on Vercel
+`public/cv-largo.html` conserva la versión anterior de dos páginas.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Despliegue
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Cualquier push a `main` queda listo para desplegar en Vercel con la configuración por defecto de Next.js.

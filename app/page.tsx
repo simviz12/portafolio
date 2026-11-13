@@ -14,6 +14,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Backdrop from "@/components/fx/Backdrop";
 import Cursor from "@/components/fx/Cursor";
+import ScrollProgress from "@/components/fx/ScrollProgress";
 import SmoothScroll from "@/components/fx/SmoothScroll";
 import { PortfolioProvider } from "@/context/PortfolioContext";
 
@@ -25,6 +26,7 @@ export default function Home() {
       <SmoothScroll />
       <Backdrop />
       <Cursor />
+      <ScrollProgress />
       <AnimatePresence>{loading && <Preloader onComplete={() => setLoading(false)} />}</AnimatePresence>
 
       <Navbar />

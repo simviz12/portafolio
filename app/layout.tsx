@@ -34,6 +34,12 @@ export const metadata: Metadata = {
   icons: {
     icon: "/logo.svg",
   },
+  openGraph: {
+    type: "website",
+    title: "Carlos Julián Benavides Burbano · Product Engineer",
+    description:
+      "Portfolio with video walkthroughs of real projects: mobile security, an ethical-hacking copilot on Kali Linux and a wellness wearable.",
+  },
 };
 
 export const viewport: Viewport = {
